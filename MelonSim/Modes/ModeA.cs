@@ -72,10 +72,13 @@ sealed class ModeA
         if (mergeStat)
         {
             int factor = repeat;
+            Console.Error.WriteLine("Processing...");
+            sw.Restart();
             while (repeat-- > 0)
-                SimulateWithMerge(sw, a, ref totalEmptyCount, ref totalMelonCount);
-            Console.Error.WriteLine($"[STAT] done in {sw.ElapsedMilliseconds}ms!");
-            double ratio = (double)totalEmptyCount / (totalEmptyCount + totalMelonCount);
+                SimulateWithMerge(a, ref totalEmptyCount, ref totalMelonCount);
+            sw.Stop();
+            Console.Error.WriteLine($"Done in {sw.ElapsedMilliseconds}ms!");
+            double ratio = (double)totalEmptyCount / ((long)size * factor);
             Console.Error.WriteLine($"Size: {size}, Empty: {totalEmptyCount}, Block: {totalMelonCount}, Ratio: {ratio}");
             string log = $"{size},{factor},{totalEmptyCount},{totalMelonCount},{ratio}\n";
             File.AppendAllText(resultFilePath, log, Encoding.UTF8);
@@ -87,7 +90,7 @@ sealed class ModeA
                 SimulateNoMerge(sw, a, resultFilePath, size);
         }
 
-        static void SimulateWithMerge(Stopwatch sw, ModeA a, ref long totalEmptyCount, ref long totalMelonCount)
+        static void SimulateWithMerge(ModeA a, ref long totalEmptyCount, ref long totalMelonCount)
         {
             a.Simulate();
             int emptyCount = 0;
@@ -128,7 +131,7 @@ sealed class ModeA
                         break;
                 }
             }
-            double ratio = (double)emptyCount / (emptyCount + melonCount);
+            double ratio = (double)emptyCount / size;
             Console.Error.WriteLine($"Size: {size}, Empty: {emptyCount}, Block: {melonCount}, Ratio: {ratio}");
             string log = $"{size},1,{emptyCount},{melonCount},{ratio}\n";
             File.AppendAllText(resultFilePath, log, Encoding.UTF8);

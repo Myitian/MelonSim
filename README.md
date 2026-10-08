@@ -7,10 +7,28 @@
 
 ### 模式A
 
-```
-… 泥土 耕地 泥土 耕地 泥土 耕地 泥土 …
-```
+实际模式：在单个轴上，耕地和泥土交错排列，每个耕地上的茎有2个可选位置，每个可用点位贴着2个耕地
 
-南瓜与南瓜茎个数之比收敛于：0.8766
+<img width="576" height="80" src=".github/a-actual.svg" />
 
-![Fig A](DataProc/a-ratio.png)
+节约内存表示：略去耕地所占位置
+
+<img width="384" height="80" src=".github/a-memory.svg" />
+
+0.87660~0.87661
+
+![图表A](DataProc/a-ratio.png)
+
+### 模式B
+
+实际模式：在X轴和Z轴上耕地和泥土均交错排列，每个耕地上的茎有4个可选位置，每个可用点位贴着2个耕地
+
+<img width="576" height="576" src=".github/b-actual.svg" />
+
+节约内存表示：略去耕地所占位置
+
+<img width="576" height="384" src=".github/b-memory.svg" />
+
+0.99872~0.99873
+
+![图表B](DataProc/b-ratio.png)
