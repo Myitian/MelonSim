@@ -11,8 +11,8 @@ sealed class ModeA
 
     public ModeA(int count, ulong seed)
     {
-        Fields = new FieldStatus[count + 5];
-        StemIndices = new int[count + 2];
+        Fields = new FieldStatus[count + 1];
+        StemIndices = new int[count];
         _random = new(seed);
         for (int i = 0; i < StemIndices.Length; i++)
             StemIndices[i] = i;
@@ -92,7 +92,7 @@ sealed class ModeA
             a.Simulate();
             int emptyCount = 0;
             int melonCount = 0;
-            for (int i = 3; i < a.Fields.Length - 2; i++)
+            for (int i = 0; i < a.Fields.Length - 1; i++)
             {
                 switch (a.Fields[i])
                 {
@@ -116,7 +116,7 @@ sealed class ModeA
             Console.Error.WriteLine($"Done in {sw.ElapsedMilliseconds}ms!");
             int emptyCount = 0;
             int melonCount = 0;
-            for (int i = 3; i < a.Fields.Length - 2; i++)
+            for (int i = 0; i < a.Fields.Length - 1; i++)
             {
                 switch (a.Fields[i])
                 {
