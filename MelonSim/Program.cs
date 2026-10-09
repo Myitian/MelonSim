@@ -18,6 +18,9 @@ switch (mode)
     case "b":
         ModeB.Simulate(resultFilePath);
         break;
+    case "bd":
+        ModeB_dbg.Simulate(resultFilePath);
+        break;
     default:
         Console.Error.WriteLine("Unknown mode: {0}", mode);
         return;

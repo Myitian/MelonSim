@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MelonSim.Modes;
 
-sealed class ModeB
+sealed class ModeB_dbg
 {
     private Xoshiro256StarStar _random;
     public FieldStatus[] Fields { get; }
@@ -13,11 +13,11 @@ sealed class ModeB
     public int LineSize { get; }
 
 
-    public ModeB(int count, ulong seed)
+    public ModeB_dbg(int count, ulong seed)
         : this(count, count, seed)
     {
     }
-    public ModeB(int x, int z, ulong seed)
+    public ModeB_dbg(int x, int z, ulong seed)
     {
         int xSize = x * 2 + 1;
         int zSize = z + 1;
@@ -36,7 +36,7 @@ sealed class ModeB
         Span<FieldStatus> fields = Fields;
         Span<int> stemIndices = StemIndices;
         fields.Clear();
-        _random.Shuffle(stemIndices);
+        //_random.Shuffle(stemIndices);
         for (int i = 0; i < stemIndices.Length; i++)
             SimulateCore(stemIndices[i]);
     }
@@ -49,13 +49,28 @@ sealed class ModeB
         ref FieldStatus c = ref Unsafe.Add(ref p, index);
         ref FieldStatus d = ref Unsafe.Add(ref p, LineSize * 2 + index);
         if (a == FieldStatus.Empty)
+        {
             list.Add(new(ref a));
+            a = FieldStatus.Stem;
+        }
         if (b == FieldStatus.Empty)
+        {
             list.Add(new(ref b));
+            b = FieldStatus.Stem;
+        }
         if (c == FieldStatus.Empty)
+        {
             list.Add(new(ref c));
+            c = FieldStatus.Stem;
+        }
         if (d == FieldStatus.Empty)
+        {
             list.Add(new(ref d));
+            d = FieldStatus.Stem;
+        }
+        Print();
+        for (int i = 0; i < list.Count; i++)
+            list[i].Value = FieldStatus.Empty;
         int offset = 0;
         switch (list.Count)
         {
@@ -74,80 +89,62 @@ sealed class ModeB
                 offset = (int)_random.Next() & 3;
                 goto case 1;
         }
+        Print();
+    }
+    void Print()
+    {
+        ref FieldStatus p = ref MemoryMarshal.GetArrayDataReference(Fields);
+        int w = LineSize * 2 + 1;
+        int len = Fields.Length - w;
+        for (int o = 0; o <= len; o += w)
+        {
+            for (int i = 0; i < w; i++)
+            {
+                switch (Unsafe.Add(ref p, o + i))
+                {
+                    case FieldStatus.Empty:
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write('-');
+                        break;
+                    case FieldStatus.Block:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write('O');
+                        break;
+                    case FieldStatus.Stem:
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.Write('*');
+                        break;
+                }
+            }
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+        Console.WriteLine();
     }
     public static void Simulate(string resultFilePath)
     {
         File.WriteAllText(resultFilePath, "Size,Factor,Empty,Block,Ratio\n", Encoding.UTF8);
         Console.Out.Write("Size,Factor,Empty,Block,Ratio\n");
-        ReadOnlySpan<int> sizes = [
-            1, 2, 4, 8,
-            10, 20, 40, 80,
-            100, 200, 400, 800,
-            1000, 2000, 4000, 8000,
-            10000, 20000];
-        foreach (int size in sizes)
-            SimulateCore(resultFilePath, size, Math.Max(100000000 / (size * size), 50));
-        SimulateCore(resultFilePath, 40000);
+        SimulateCore(resultFilePath, 5, 1);
     }
     public static void SimulateCore(string resultFilePath, int size, int repeat = int.MaxValue, ulong seed = 114514)
     {
         Stopwatch sw = new();
         Console.Error.WriteLine("Initializing...");
         sw.Restart();
-        ModeB b = new(size, seed);
+        ModeB_dbg b = new(size, seed);
         sw.Stop();
         Console.Error.WriteLine($"[INIT {size}] done in {sw.ElapsedMilliseconds}ms!");
-        long totalEmptyCount = 0;
-        long totalMelonCount = 0;
         size = b.StemIndices.Length;
-        bool mergeStat = size < 10000000;
-        if (mergeStat)
-        {
-            int factor = repeat;
-            Console.Error.WriteLine("Processing...");
-            sw.Restart();
-            while (repeat-- > 0)
-                SimulateWithMerge(b, ref totalEmptyCount, ref totalMelonCount);
-            sw.Stop();
-            Console.Error.WriteLine($"Done in {sw.ElapsedMilliseconds}ms!");
-            double ratio = (double)totalEmptyCount / ((long)size * factor);
-            Console.Error.WriteLine($"Size: {size}, Empty: {totalEmptyCount}, Block: {totalMelonCount}, Ratio: {ratio}");
-            string log = $"{size},{factor},{totalEmptyCount},{totalMelonCount},{ratio}\n";
-            File.AppendAllText(resultFilePath, log, Encoding.UTF8);
-            Console.Out.Write(log);
-        }
-        else
-        {
-            while (repeat-- > 0)
-                SimulateNoMerge(sw, b, resultFilePath);
-        }
-
-        static void SimulateWithMerge(ModeB b, ref long totalEmptyCount, ref long totalMelonCount)
-        {
-            b.Simulate();
-            Stat(b, out int emptyCount, out int melonCount);
-            totalEmptyCount += emptyCount;
-            totalMelonCount += melonCount;
-        }
-        static void SimulateNoMerge(Stopwatch sw, ModeB b, string resultFilePath)
+        while (repeat-- > 0)
         {
             Console.Error.WriteLine("Processing...");
             sw.Restart();
             b.Simulate();
             sw.Stop();
             Console.Error.WriteLine($"Done in {sw.ElapsedMilliseconds}ms!");
-            Stat(b, out int emptyCount, out int melonCount);
-            int size = b.StemIndices.Length;
-            double ratio = (double)emptyCount / size;
-            Console.Error.WriteLine($"Size: {size}, Empty: {emptyCount}, Block: {melonCount}, Ratio: {ratio}");
-            string log = $"{size},1,{emptyCount},{melonCount},{ratio}\n";
-            File.AppendAllText(resultFilePath, log, Encoding.UTF8);
-            Console.Out.Write(log);
-        }
-        static void Stat(ModeB b, out int emptyCount, out int melonCount)
-        {
-            emptyCount = 0;
-            melonCount = 0;
+            int emptyCount = 0;
+            int melonCount = 0;
             int w = b.LineSize * 2 + 1;
             int len = b.Fields.Length - w;
             ref FieldStatus p = ref MemoryMarshal.GetArrayDataReference(b.Fields);
@@ -161,6 +158,11 @@ sealed class ModeB
                         melonCount++;
                 }
             }
+            double ratio = (double)emptyCount / size;
+            Console.Error.WriteLine($"Size: {size}, Empty: {emptyCount}, Block: {melonCount}, Ratio: {ratio}");
+            string log = $"{size},1,{emptyCount},{melonCount},{ratio}\n";
+            File.AppendAllText(resultFilePath, log, Encoding.UTF8);
+            Console.Out.Write(log);
         }
     }
     ref struct Ref<T>(ref T value)

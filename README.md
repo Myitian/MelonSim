@@ -15,7 +15,7 @@
 
 <img width="384" height="80" src=".github/a-memory.svg" />
 
-0.87660~0.87661
+约0.8766
 
 ![图表A](DataProc/a-ratio.png)
 
@@ -29,6 +29,6 @@
 
 <img width="576" height="384" src=".github/b-memory.svg" />
 
-0.99872~0.99873
+约0.9987
 
 ![图表B](DataProc/b-ratio.png)
