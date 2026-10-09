@@ -43,7 +43,7 @@ sealed class ModeB
     void SimulateCore(int index)
     {
         ref FieldStatus p = ref MemoryMarshal.GetArrayDataReference(Fields);
-        RefList4<FieldStatus> list = new();
+        RefList4<Ref<FieldStatus>> list = new();
         ref FieldStatus a = ref Unsafe.Add(ref p, index - 2);
         ref FieldStatus b = ref Unsafe.Add(ref p, index - 1);
         ref FieldStatus c = ref Unsafe.Add(ref p, index);
@@ -167,23 +167,31 @@ sealed class ModeB
     {
         public ref T Value = ref value;
     }
-    ref struct RefList4<T>
+    [StructLayout(LayoutKind.Sequential)]
+    ref struct RefList4<T> where T : allows ref struct
     {
-        public Ref<T> V0;
-        public Ref<T> V1;
-        public Ref<T> V2;
-        public Ref<T> V3;
+        public T V0;
+        public T V1;
+        public T V2;
+        public T V3;
         public int Count;
-        public Ref<T> this[int index]
+        public T this[int index] // unsafe
         {
-            get => Unsafe.Add(ref V0, index);
-            set => Unsafe.Add(ref V0, index) = value;
+            get
+            {
+                Debug.Assert(index is >= 0 and < 4);
+                return Unsafe.Add(ref V0, index);
+            }
+            set
+            {
+                Debug.Assert(index is >= 0 and < 4);
+                Unsafe.Add(ref V0, index) = value;
+            }
         }
-        public void Add(Ref<T> value)
+        public void Add(T value) // unsafe
         {
-            int c = Count;
-            this[c] = value;
-            Count = c + 1;
+            Debug.Assert(Count is >= 0 and < 4);
+            this[Count++] = value;
         }
     }
 }
