@@ -9,11 +9,11 @@
 
 实际模式：在单个轴上，耕地和泥土交错排列，每个耕地上的茎有2个可选位置，每个可用点位贴着2个耕地
 
-<img width="576" height="80" src=".github/a-actual.svg" />
+<img width="576" height="80" src=".github/a-actual.svg" alt="模式A-实际模式" />
 
 节约内存表示：略去耕地所占位置
 
-<img width="384" height="80" src=".github/a-memory.svg" />
+<img width="384" height="80" src=".github/a-memory.svg" alt="模式A-节约内存表示" />
 
 约0.8766
 
@@ -23,12 +23,26 @@
 
 实际模式：在X轴和Z轴上耕地和泥土均交错排列，每个耕地上的茎有4个可选位置，每个可用点位贴着2个耕地
 
-<img width="576" height="576" src=".github/b-actual.svg" />
+<img width="576" height="576" src=".github/b-actual.svg" alt="模式B-实际模式" />
 
 节约内存表示：略去耕地所占位置
 
-<img width="576" height="384" src=".github/b-memory.svg" />
+<img width="576" height="384" src=".github/b-memory.svg" alt="模式B-节约内存表示" />
 
 约0.9987
 
 ![图表B](DataProc/b-ratio.png)
+
+### 模式C
+
+实际模式：在X轴和Z轴上耕地和泥土均交错排列，每个耕地上的茎有4个可选位置，每个可用点位贴着4个耕地
+
+<img width="576" height="576" src=".github/c-actual.svg" alt="模式C-实际模式" />
+
+节约内存表示：略去耕地所占位置
+
+<img width="576" height="384" src=".github/c-memory.svg" alt="模式C-节约内存表示" />
+
+约0.9187
+
+![图表C](DataProc/c-ratio.png)

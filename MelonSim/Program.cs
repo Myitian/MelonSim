@@ -5,7 +5,7 @@ string mode;
 if (args.Length > 0)
     mode = args[0].Trim().ToLowerInvariant();
 else
-    mode = "b";
+    mode = "c";
 if (args.Length > 1)
     resultFilePath = args[1];
 else
@@ -18,8 +18,11 @@ switch (mode)
     case "b":
         ModeB.Simulate(resultFilePath);
         break;
-    case "bd":
-        ModeB_dbg.Simulate(resultFilePath);
+    case "c":
+        ModeC.Simulate(resultFilePath);
+        break;
+    case "f":
+        Flory.Simulate(resultFilePath);
         break;
     default:
         Console.Error.WriteLine("Unknown mode: {0}", mode);

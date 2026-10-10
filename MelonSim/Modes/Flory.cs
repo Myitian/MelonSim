@@ -1,17 +1,16 @@
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace MelonSim.Modes;
 
-struct ModeA : IMode<ModeA>
+struct Flory : IMode<Flory>
 {
     Xoshiro256StarStar _random;
     public FieldStatus[] Fields { get; }
     public int[] StemIndices { get; }
 
-    public ModeA(int count, ulong seed)
+    public Flory(int count, ulong seed)
     {
         Fields = new FieldStatus[count + 1];
         StemIndices = new int[count];
@@ -19,22 +18,16 @@ struct ModeA : IMode<ModeA>
         for (int i = 0; i < StemIndices.Length; i++)
             StemIndices[i] = i;
     }
-    void SimulateCore(int index)
+    readonly void SimulateCore(int index)
     {
         ref FieldStatus p = ref MemoryMarshal.GetArrayDataReference(Fields);
         ref FieldStatus a = ref Unsafe.Add(ref p, index);
         ref FieldStatus b = ref Unsafe.Add(ref p, index + 1);
-        Debug.Assert(Utils.IsRefBelongTo(in a, Fields));
-        Debug.Assert(Utils.IsRefBelongTo(in b, Fields));
-        if (a == FieldStatus.Empty)
+        if (a == FieldStatus.Empty && b == FieldStatus.Empty)
         {
-            if (b == FieldStatus.Empty)
-                Unsafe.Add(ref p, index + ((int)_random.Next() & 1)) = FieldStatus.Block;
-            else
-                a = FieldStatus.Block;
-        }
-        else if (b == FieldStatus.Empty)
+            a = FieldStatus.Block;
             b = FieldStatus.Block;
+        }
     }
     public void Simulate()
     {
@@ -60,7 +53,7 @@ struct ModeA : IMode<ModeA>
         }
     }
 
-    public static ModeA Create(int size, ulong seed)
+    public static Flory Create(int size, ulong seed)
         => new(size, seed);
     public static void Simulate(string resultFilePath)
     {
@@ -76,7 +69,7 @@ struct ModeA : IMode<ModeA>
             1000000, 2000000, 4000000,
             10000000, 100000000, 1000000000];
         foreach (int size in sizes)
-            IMode<ModeA>.Simulate(resultFilePath, size, Math.Max(100000000 / size, 100));
-        IMode<ModeA>.Simulate(resultFilePath, 2000000000);
+            IMode<Flory>.Simulate(resultFilePath, size, Math.Max(100000000 / size, 100));
+        IMode<Flory>.Simulate(resultFilePath, 2000000000);
     }
 }

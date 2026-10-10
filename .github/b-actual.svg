@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="144" height="144" fill="none">
   <rect width="100%" height="100%" fill="white" />
   <defs>
-    <g id="cdots">
-      <circle cx="4" cy="8" r="1" fill="black" />
-      <circle cx="8" cy="8" r="1" fill="black" />
-      <circle cx="12" cy="8" r="1" fill="black" />
+    <g id="cdots" fill="#000">
+      <circle cx="4" cy="8" r="1" />
+      <circle cx="8" cy="8" r="1" />
+      <circle cx="12" cy="8" r="1" />
     </g>
-    <g id="hdots">
-      <circle cx="8" cy="4" r="1" fill="black" />
-      <circle cx="8" cy="8" r="1" fill="black" />
-      <circle cx="8" cy="12" r="1" fill="black" />
+    <g id="hdots" fill="#000">
+      <circle cx="8" cy="4" r="1" />
+      <circle cx="8" cy="8" r="1" />
+      <circle cx="8" cy="12" r="1" />
     </g>
     <path id="stem" d="M7 2L8 4V14M6 6l2 2v2l2-2" stroke="#E0A91C" />
     <rect id="farmland" width="16" height="16" fill="#552E0F" />
@@ -22,20 +22,20 @@
       <use href="#clip0" x="-16" y="14" />
       <use href="#clip1" x="0" y="-16" />
       <use href="#clip1" x="14" y="-16" />
-      <rect x="-16" y="2" width="16" height="12" />
-      <rect x="2" y="-16" width="12" height="16" />
+      <rect x="-16" y="0" width="16" height="14" />
+      <rect x="0" y="-16" width="14" height="16" />
       <rect x="0" y="0" width="32" height="32" />
     </clipPath>
     <clipPath id="clip-alt0">
       <use href="#clip0" x="-16" y="0" />
       <use href="#clip0" x="-16" y="14" />
-      <rect x="-16" y="2" width="16" height="12" />
+      <rect x="-16" y="0" width="16" height="14" />
       <rect x="0" y="-16" width="72" height="48" />
     </clipPath>
     <clipPath id="clip-alt1">
       <use href="#clip1" x="0" y="-16" />
       <use href="#clip1" x="14" y="-16" />
-      <rect x="2" y="-16" width="12" height="16" />
+      <rect x="0" y="-16" width="14" height="16" />
       <rect x="-16" y="0" width="48" height="32" />
     </clipPath>
   </defs>
@@ -53,24 +53,24 @@
   <use href="#farmland" x="32" y="96" />
   <use href="#farmland" x="64" y="96" />
   <use href="#farmland" x="96" y="96" />
-  <use href="#box" x="32" y="32" color="#FF0000" />
-  <use href="#box" x="64" y="32" color="#FF7F00" clip-path="url(#clip-alt0)" />
-  <use href="#box" x="96" y="32" color="#FFFF00" clip-path="url(#clip-alt0)" />
-  <use href="#box" x="32" y="64" color="#FF00FF" clip-path="url(#clip-alt1)" />
-  <use href="#box" x="64" y="64" color="#FFFFFF" clip-path="url(#clip-main)" />
-  <use href="#box" x="96" y="64" color="#00AA00" clip-path="url(#clip-main)" />
-  <use href="#box" x="32" y="96" color="#0000FF" clip-path="url(#clip-alt1)" />
-  <use href="#box" x="64" y="96" color="#007FFF" clip-path="url(#clip-main)" />
-  <use href="#box" x="96" y="96" color="#00FFFF" clip-path="url(#clip-main)" />
-  <use href="#dot" x="32" y="32" color="#FF0000" />
-  <use href="#dot" x="64" y="32" color="#FF7F00" />
-  <use href="#dot" x="96" y="32" color="#FFFF00" />
-  <use href="#dot" x="32" y="64" color="#FF00FF" />
-  <use href="#dot" x="64" y="64" color="#FFFFFF" />
-  <use href="#dot" x="96" y="64" color="#00AA00" />
-  <use href="#dot" x="32" y="96" color="#0000FF" />
-  <use href="#dot" x="64" y="96" color="#007FFF" />
-  <use href="#dot" x="96" y="96" color="#00FFFF" />
+  <use href="#box" x="32" y="32" color="#F00" />
+  <use href="#box" x="64" y="32" color="#F70" clip-path="url(#clip-alt0)" />
+  <use href="#box" x="96" y="32" color="#FF0" clip-path="url(#clip-alt0)" />
+  <use href="#box" x="32" y="64" color="#F0F" clip-path="url(#clip-alt1)" />
+  <use href="#box" x="64" y="64" color="#FFF" clip-path="url(#clip-main)" />
+  <use href="#box" x="96" y="64" color="#0A0" clip-path="url(#clip-main)" />
+  <use href="#box" x="32" y="96" color="#00F" clip-path="url(#clip-alt1)" />
+  <use href="#box" x="64" y="96" color="#07F" clip-path="url(#clip-main)" />
+  <use href="#box" x="96" y="96" color="#0FF" clip-path="url(#clip-main)" />
+  <use href="#dot" x="32" y="32" color="#F00" />
+  <use href="#dot" x="64" y="32" color="#F70" />
+  <use href="#dot" x="96" y="32" color="#FF0" />
+  <use href="#dot" x="32" y="64" color="#F0F" />
+  <use href="#dot" x="64" y="64" color="#FFF" />
+  <use href="#dot" x="96" y="64" color="#0A0" />
+  <use href="#dot" x="32" y="96" color="#00F" />
+  <use href="#dot" x="64" y="96" color="#07F" />
+  <use href="#dot" x="96" y="96" color="#0FF" />
   <use href="#stem" x="32" y="32" />
   <use href="#stem" x="64" y="32" />
   <use href="#stem" x="96" y="32" />

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="80" fill="none">
+  <rect width="100%" height="100%" fill="white" />
+  <defs>
+    <g id="cdots" fill="#000">
+      <circle cx="4" cy="8" r="1" />
+      <circle cx="8" cy="8" r="1" />
+      <circle cx="12" cy="8" r="1" />
+    </g>
+    <g id="hdots" fill="#000">
+      <circle cx="8" cy="4" r="1" />
+      <circle cx="8" cy="8" r="1" />
+      <circle cx="8" cy="12" r="1" />
+    </g>
+    <path id="box0" d="M-15 1h46v14h-16v16h-14v-16h-16z" stroke-width="2" stroke="currentColor" />
+    <path id="box1" d="M-13 3h16v-16h10v16h16v10h-42z" stroke-width="2" stroke="currentColor" />
+    <path id="clip00" d="M0 0v2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2v-2" />
+    <path id="clip10" d="M0 0v2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2v-2" />
+    <clipPath id="clip-0main">
+      <use href="#clip00" x="-16" y="0" />
+      <use href="#clip00" x="-16" y="14" />
+      <rect x="-16" y="0" width="16" height="14" />
+      <rect x="0" y="-16" width="32" height="48" />
+    </clipPath>
+    <clipPath id="clip-1main">
+      <use href="#clip10" x="-16" y="2" />
+      <use href="#clip10" x="-16" y="12" />
+      <rect x="-16" y="4" width="16" height="10" />
+      <rect x="0" y="-16" width="32" height="48" />
+    </clipPath>
+  </defs>
+  <rect x="16" y="16" width="96" height="48" fill="#966C4A" />
+  <use href="#hdots" x="56" y="0" />
+  <use href="#hdots" x="56" y="64" />
+  <use href="#cdots" x="0" y="32" />
+  <use href="#cdots" x="112" y="32" />
+  <use href="#box0" x="32" y="16" color="#F00" />
+  <use href="#box0" x="64" y="16" color="#F70" clip-path="url(#clip-0main)" />
+  <use href="#box0" x="32" y="32" color="#FF0" />
+  <use href="#box0" x="64" y="32" color="#0A0" clip-path="url(#clip-0main)" />
+  <use href="#box1" x="48" y="32" color="#0FF" />
+  <use href="#box1" x="80" y="32" color="#07F" clip-path="url(#clip-1main)" />
+  <use href="#box1" x="48" y="48" color="#00F" />
+  <use href="#box1" x="80" y="48" color="#F0F" clip-path="url(#clip-1main)" />
+</svg>

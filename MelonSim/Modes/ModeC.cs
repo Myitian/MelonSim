@@ -5,39 +5,55 @@ using System.Text;
 
 namespace MelonSim.Modes;
 
-struct ModeB : IMode<ModeB>
+struct ModeC : IMode<ModeC>
 {
     Xoshiro256StarStar _random;
     public FieldStatus[] Fields { get; }
     public int[] StemIndices { get; }
     public int LineSize { get; }
 
-    public ModeB(int count, ulong seed)
+
+    public ModeC(int count, ulong seed)
         : this(count, count, seed)
     {
     }
-    public ModeB(int x, int z, ulong seed)
+    public ModeC(int x, int z, ulong seed)
     {
-        int xSize = x * 2 + 1;
+        int xSize = x * 2 + 2;
         int zSize = z + 1;
-        LineSize = x;
+        LineSize = x * 2;
         Fields = new FieldStatus[xSize * zSize];
-        StemIndices = new int[x * z];
+        StemIndices = new int[LineSize * z];
         _random = new(seed);
-        for (int zIndex = 0, offset = 2, i = 0; zIndex < z; zIndex++, offset++)
+        for (int zIndex = 0, offset = 0, i = 0; zIndex < z; zIndex++, offset += xSize)
         {
-            for (int xIndex = 0; xIndex < x; xIndex++, offset += 2, i++)
-                StemIndices[i] = offset;
+            for (int xIndex = 1; xIndex <= LineSize; xIndex++, i++)
+                StemIndices[i] = offset + xIndex;
         }
     }
     void SimulateCore(int index)
     {
         RefList4<Ref<FieldStatus>> list = new();
         ref FieldStatus p = ref MemoryMarshal.GetArrayDataReference(Fields);
-        ref FieldStatus a = ref Unsafe.Add(ref p, index - 2);
-        ref FieldStatus b = ref Unsafe.Add(ref p, index - 1);
-        ref FieldStatus c = ref Unsafe.Add(ref p, index);
-        ref FieldStatus d = ref Unsafe.Add(ref p, LineSize * 2 + index);
+        ref FieldStatus a = ref Unsafe.NullRef<FieldStatus>();
+        ref FieldStatus b = ref Unsafe.NullRef<FieldStatus>();
+        ref FieldStatus c = ref Unsafe.NullRef<FieldStatus>();
+        ref FieldStatus d = ref Unsafe.NullRef<FieldStatus>();
+        int w = LineSize + 2;
+        if (((index % w) & 1) == 0)
+        {
+            a = ref Unsafe.Add(ref p, index);
+            b = ref Unsafe.Add(ref p, index + w - 1);
+            c = ref Unsafe.Add(ref p, index + w);
+            d = ref Unsafe.Add(ref p, index + w + 1);
+        }
+        else
+        {
+            a = ref Unsafe.Add(ref p, index - 1);
+            b = ref Unsafe.Add(ref p, index);
+            c = ref Unsafe.Add(ref p, index + 1);
+            d = ref Unsafe.Add(ref p, index + w);
+        }
         Debug.Assert(Utils.IsRefBelongTo(in a, Fields));
         Debug.Assert(Utils.IsRefBelongTo(in b, Fields));
         Debug.Assert(Utils.IsRefBelongTo(in c, Fields));
@@ -82,13 +98,15 @@ struct ModeB : IMode<ModeB>
     {
         emptyCount = 0;
         melonCount = 0;
-        int w = LineSize * 2 + 1;
+        int w = LineSize + 2;
         int len = Fields.Length - w;
         ref FieldStatus p = ref MemoryMarshal.GetArrayDataReference(Fields);
-        for (int offset = 0; offset < len; offset += w)
+        for (int offset = 0; offset <= len; offset += w)
         {
-            for (int i = 1; i < w; i++)
+            for (int i = 1; i <= LineSize; i++)
             {
+                if (offset == ((i & 1) == 0 ? len : 0))
+                    continue;
                 if (Unsafe.Add(ref p, offset + i) == FieldStatus.Empty)
                     emptyCount++;
                 else
@@ -97,7 +115,7 @@ struct ModeB : IMode<ModeB>
         }
     }
 
-    public static ModeB Create(int size, ulong seed)
+    public static ModeC Create(int size, ulong seed)
         => new(size, seed);
     public static void Simulate(string resultFilePath)
     {
@@ -110,7 +128,7 @@ struct ModeB : IMode<ModeB>
             1000, 2000, 4000, 8000,
             10000];
         foreach (int size in sizes)
-            IMode<ModeB>.Simulate(resultFilePath, size, Math.Max(100000000 / (size * size), 50));
-        IMode<ModeB>.Simulate(resultFilePath, 20000);
+            IMode<ModeC>.Simulate(resultFilePath, size, Math.Max(10000000 / (size * size), 50));
+        IMode<ModeC>.Simulate(resultFilePath, 20000);
     }
 }
