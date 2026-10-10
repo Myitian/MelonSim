@@ -20,10 +20,10 @@ interface IMode<T> where T : IMode<T>
         File.WriteAllText(resultFilePath, "Size,Factor,Empty,Block,Ratio\n", Encoding.UTF8);
         Console.Out.Write("Size,Factor,Empty,Block,Ratio\n");
         foreach (int size in T.SizesForSimulation)
-            Simulate(resultFilePath, size, T.GetRepeatCount(size));
-        Simulate(resultFilePath, T.FinalSize);
+            SimulateOne(resultFilePath, size, T.GetRepeatCount(size));
+        SimulateOne(resultFilePath, T.FinalSize);
     }
-    public static void Simulate(string resultFilePath, int size, int repeat = int.MaxValue, ulong seed = 114514)
+    public static void SimulateOne(string resultFilePath, int size, int repeat = int.MaxValue, ulong seed = 114514)
     {
         Stopwatch sw = new();
         Console.Error.WriteLine("Initializing...");

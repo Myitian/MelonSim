@@ -29,31 +29,30 @@ struct ModeA : IMode<ModeA>
         for (int i = 0; i < StemIndices.Length; i++)
             StemIndices[i] = i;
     }
-    void SimulateCore(int index)
-    {
-        ref FieldStatus p = ref MemoryMarshal.GetArrayDataReference(Fields);
-        ref FieldStatus a = ref Unsafe.Add(ref p, index);
-        ref FieldStatus b = ref Unsafe.Add(ref p, index + 1);
-        Debug.Assert(Utils.IsRefBelongTo(in a, Fields));
-        Debug.Assert(Utils.IsRefBelongTo(in b, Fields));
-        if (a == FieldStatus.Empty)
-        {
-            if (b == FieldStatus.Empty)
-                Unsafe.Add(ref p, index + ((int)_random.Next() & 1)) = FieldStatus.Block;
-            else
-                a = FieldStatus.Block;
-        }
-        else if (b == FieldStatus.Empty)
-            b = FieldStatus.Block;
-    }
     public void Simulate()
     {
         Span<FieldStatus> fields = Fields;
         Span<int> stemIndices = StemIndices;
         fields.Clear();
         _random.Shuffle(stemIndices);
+        ref FieldStatus p = ref MemoryMarshal.GetArrayDataReference(Fields);
         for (int i = 0; i < stemIndices.Length; i++)
-            SimulateCore(stemIndices[i]);
+        {
+            int index = stemIndices[i];
+            ref FieldStatus a = ref Unsafe.Add(ref p, index);
+            ref FieldStatus b = ref Unsafe.Add(ref p, index + 1);
+            Debug.Assert(Utils.IsRefBelongTo(in a, Fields));
+            Debug.Assert(Utils.IsRefBelongTo(in b, Fields));
+            if (a == FieldStatus.Empty)
+            {
+                if (b == FieldStatus.Empty)
+                    Unsafe.Add(ref p, index + ((int)_random.Next() & 1)) = FieldStatus.Block;
+                else
+                    a = FieldStatus.Block;
+            }
+            else if (b == FieldStatus.Empty)
+                b = FieldStatus.Block;
+        }
     }
     public readonly void Stat(out int emptyCount, out int melonCount)
     {
