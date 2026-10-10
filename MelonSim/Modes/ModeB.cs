@@ -11,6 +11,13 @@ struct ModeB : IMode<ModeB>
     public FieldStatus[] Fields { get; }
     public int[] StemIndices { get; }
     public int LineSize { get; }
+    public static ReadOnlySpan<int> SizesForSimulation => [
+        1, 2, 4, 8,
+        10, 20, 40, 80,
+        100, 200, 400, 800,
+        1000, 2000, 4000, 8000,
+        10000];
+    public static int FinalSize => 20000;
 
     public ModeB(int count, ulong seed)
         : this(count, count, seed)
@@ -99,18 +106,6 @@ struct ModeB : IMode<ModeB>
 
     public static ModeB Create(int size, ulong seed)
         => new(size, seed);
-    public static void Simulate(string resultFilePath)
-    {
-        File.WriteAllText(resultFilePath, "Size,Factor,Empty,Block,Ratio\n", Encoding.UTF8);
-        Console.Out.Write("Size,Factor,Empty,Block,Ratio\n");
-        ReadOnlySpan<int> sizes = [
-            1, 2, 4, 8,
-            10, 20, 40, 80,
-            100, 200, 400, 800,
-            1000, 2000, 4000, 8000,
-            10000];
-        foreach (int size in sizes)
-            IMode<ModeB>.Simulate(resultFilePath, size, Math.Max(100000000 / (size * size), 50));
-        IMode<ModeB>.Simulate(resultFilePath, 20000);
-    }
+    public static int GetRepeatCount(int size)
+        => Math.Max(100000000 / size, 50);
 }

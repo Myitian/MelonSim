@@ -4,11 +4,22 @@ using System.Text;
 
 namespace MelonSim.Modes;
 
+// 参考项：Flory一维二聚体随机填充
 struct Flory : IMode<Flory>
 {
     Xoshiro256StarStar _random;
     public FieldStatus[] Fields { get; }
     public int[] StemIndices { get; }
+    public static ReadOnlySpan<int> SizesForSimulation => [
+        1, 2, 4, 5, 8,
+        10, 20, 40, 50, 80,
+        100, 200, 400, 500, 800,
+        1000, 2000, 4000, 5000, 8000,
+        10000, 20000, 40000, 50000, 80000,
+        100000, 200000, 400000, 500000, 800000,
+        1000000, 2000000, 4000000,
+        10000000, 100000000, 1000000000];
+    public static int FinalSize => 2000000000;
 
     public Flory(int count, ulong seed)
     {
@@ -55,21 +66,6 @@ struct Flory : IMode<Flory>
 
     public static Flory Create(int size, ulong seed)
         => new(size, seed);
-    public static void Simulate(string resultFilePath)
-    {
-        File.WriteAllText(resultFilePath, "Size,Factor,Empty,Block,Ratio\n", Encoding.UTF8);
-        Console.Out.Write("Size,Factor,Empty,Block,Ratio\n");
-        ReadOnlySpan<int> sizes = [
-            1, 2, 4, 5, 8,
-            10, 20, 40, 50, 80,
-            100, 200, 400, 500, 800,
-            1000, 2000, 4000, 5000, 8000,
-            10000, 20000, 40000, 50000, 80000,
-            100000, 200000, 400000, 500000, 800000,
-            1000000, 2000000, 4000000,
-            10000000, 100000000, 1000000000];
-        foreach (int size in sizes)
-            IMode<Flory>.Simulate(resultFilePath, size, Math.Max(100000000 / size, 100));
-        IMode<Flory>.Simulate(resultFilePath, 2000000000);
-    }
+    public static int GetRepeatCount(int size)
+        => Math.Max(100000000 / size, 100);
 }

@@ -7,11 +7,22 @@ interface IMode<T> where T : IMode<T>
 {
     FieldStatus[] Fields { get; }
     int[] StemIndices { get; }
+    static abstract ReadOnlySpan<int> SizesForSimulation { get; }
+    static abstract int FinalSize { get; }
 
     void Simulate();
     void Stat(out int emptyCount, out int melonCount);
     static abstract T Create(int size, ulong seed);
+    static abstract int GetRepeatCount(int size);
 
+    public static void Simulate(string resultFilePath)
+    {
+        File.WriteAllText(resultFilePath, "Size,Factor,Empty,Block,Ratio\n", Encoding.UTF8);
+        Console.Out.Write("Size,Factor,Empty,Block,Ratio\n");
+        foreach (int size in T.SizesForSimulation)
+            IMode<ModeA>.Simulate(resultFilePath, size, T.GetRepeatCount(size));
+        IMode<ModeA>.Simulate(resultFilePath, T.FinalSize);
+    }
     public static void Simulate(string resultFilePath, int size, int repeat = int.MaxValue, ulong seed = 114514)
     {
         Stopwatch sw = new();

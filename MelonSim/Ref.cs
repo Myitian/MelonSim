@@ -1,4 +1,4 @@
-namespace MelonSim.Modes;
+namespace MelonSim;
 
 ref struct Ref<T>(ref T value)
 {

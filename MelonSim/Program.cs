@@ -13,16 +13,16 @@ else
 switch (mode)
 {
     case "a":
-        ModeA.Simulate(resultFilePath);
+        IMode<ModeA>.Simulate(resultFilePath);
         break;
     case "b":
-        ModeB.Simulate(resultFilePath);
+        IMode<ModeB>.Simulate(resultFilePath);
         break;
     case "c":
-        ModeC.Simulate(resultFilePath);
+        IMode<ModeC>.Simulate(resultFilePath);
         break;
     case "f":
-        Flory.Simulate(resultFilePath);
+        IMode<Flory>.Simulate(resultFilePath);
         break;
     default:
         Console.Error.WriteLine("Unknown mode: {0}", mode);

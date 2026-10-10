@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace MelonSim.Modes;
+namespace MelonSim;
 
 [StructLayout(LayoutKind.Sequential)]
 ref struct RefList4<T> where T : allows ref struct
