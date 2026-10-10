@@ -23,7 +23,7 @@
     </clipPath>
     <clipPath id="clip-1main">
       <use href="#clip10" x="-16" y="2" />
-      <use href="#clip10" x="-1" y="12" />
+      <use href="#clip10" x="-18" y="12" />
       <rect x="-16" y="4" width="16" height="8" />
       <rect x="0" y="-16" width="32" height="48" />
     </clipPath>
