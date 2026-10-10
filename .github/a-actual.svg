@@ -27,9 +27,9 @@
   <use href="#box" x="32" y="2" color="#F00" />
   <use href="#box" x="64" y="2" color="#0F0" clip-path="url(#clip-main)" />
   <use href="#box" x="96" y="2" color="#00F" clip-path="url(#clip-main)" />
-  <use href="#dot" x="32" y="2" color="#FF0000" />
-  <use href="#dot" x="64" y="2" color="#00AA00" />
-  <use href="#dot" x="96" y="2" color="#0000FF" />
+  <use href="#dot" x="32" y="2" color="#F00" />
+  <use href="#dot" x="64" y="2" color="#0F0" />
+  <use href="#dot" x="96" y="2" color="#00F" />
   <use href="#stem" x="32" y="2" />
   <use href="#stem" x="64" y="2" />
   <use href="#stem" x="96" y="2" />
