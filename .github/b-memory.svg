@@ -13,11 +13,11 @@
     </g>
     <path id="box" d="M-15 1h46v14h-16v16h-14v-16h-16z" stroke-width="2" stroke="currentColor" />
     <rect id="dot" x="5" y="5" width="6" height="6" stroke="none" fill="currentColor" />
-    <path id="clip0" d="M0 0v2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2v-2" />
+    <path id="clip0" d="M0 0v2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2v-2" />
     <clipPath id="clip-main">
-      <use href="#clip0" x="-16" y="0" />
+      <use href="#clip0" x="-18" y="0" />
       <use href="#clip0" x="-16" y="14" />
-      <rect x="-16" y="0" width="48" height="14" />
+      <rect x="-16" y="2" width="48" height="12" />
       <rect x="0" y="0" width="32" height="32" />
     </clipPath>
   </defs>

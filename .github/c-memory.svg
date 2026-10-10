@@ -13,18 +13,18 @@
     </g>
     <path id="box0" d="M-15 1h46v14h-16v16h-14v-16h-16z" stroke-width="2" stroke="currentColor" />
     <path id="box1" d="M-13 3h16v-16h10v16h16v10h-42z" stroke-width="2" stroke="currentColor" />
-    <path id="clip00" d="M0 0v2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2v-2" />
-    <path id="clip10" d="M0 0v2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2v-2" />
+    <path id="clip00" d="M0 0v2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2v-2" />
+    <path id="clip10" d="M0 0v2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2h2l-2 2h2l2-2v-2" />
     <clipPath id="clip-0main">
-      <use href="#clip00" x="-16" y="0" />
+      <use href="#clip00" x="-18" y="0" />
       <use href="#clip00" x="-16" y="14" />
-      <rect x="-16" y="0" width="16" height="14" />
+      <rect x="-16" y="2" width="16" height="12" />
       <rect x="0" y="-16" width="32" height="48" />
     </clipPath>
     <clipPath id="clip-1main">
       <use href="#clip10" x="-16" y="2" />
-      <use href="#clip10" x="-16" y="12" />
-      <rect x="-16" y="4" width="16" height="10" />
+      <use href="#clip10" x="-1" y="12" />
+      <rect x="-16" y="4" width="16" height="8" />
       <rect x="0" y="-16" width="32" height="48" />
     </clipPath>
   </defs>
