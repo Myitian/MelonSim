@@ -35,7 +35,7 @@
 
 <img width="576" height="576" src=".github/b-actual.svg" alt="模式B-实际模式" />
 
-节约内存表示：略去耕地所占位置
+节约内存表示：略去耕地所占位置，可选位置范围变为交叠的T字形
 
 <img width="576" height="384" src=".github/b-memory.svg" alt="模式B-节约内存表示" />
 
@@ -49,7 +49,7 @@
 
 <img width="576" height="576" src=".github/c-actual.svg" alt="模式C-实际模式" />
 
-节约内存表示：略去耕地所占位置
+节约内存表示：略去耕地所占位置，可选位置范围变为交叠的正T字形和反T字形
 
 <img width="576" height="384" src=".github/c-memory.svg" alt="模式C-节约内存表示" />
 
