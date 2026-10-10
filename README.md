@@ -1,11 +1,11 @@
 # MelonSim
-模拟Minecraft中的西瓜/南瓜田在特定排列模式下的期望面积利用率
+模拟Minecraft中的西瓜/南瓜田在特定排列模式下的果实/茎比率期望
 
 见知乎问题：[MC 中以如下一些固定模式无限延伸的南瓜田最终能结出的南瓜与南瓜茎个数之比的期望是多少？](https://www.zhihu.com/question/2073824638543647920)
 
 我的知乎回答：https://www.zhihu.com/question/2073824638543647920/answer/2091565319542281687
 
-注：C#代码和CSV中的Ratio是土地空置率，Python代码和图表中Ratio的是果实/茎比率。
+注：C#代码和CSV中的Ratio是生长点位空置率，Python代码和图表中Ratio的是果实/茎比率。
 
 ## 目前实现的模式
 
