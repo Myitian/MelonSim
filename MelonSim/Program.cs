@@ -1,3 +1,4 @@
+using MelonSim;
 using MelonSim.Modes;
 
 string resultFilePath;
@@ -13,16 +14,16 @@ else
 switch (mode)
 {
     case "a":
-        IMode<ModeA>.Simulate(resultFilePath);
+        Utils.Simulate<ModeA>(resultFilePath);
         break;
     case "b":
-        IMode<ModeB>.Simulate(resultFilePath);
+        Utils.Simulate<ModeB>(resultFilePath);
         break;
     case "c":
-        IMode<ModeC>.Simulate(resultFilePath);
+        Utils.Simulate<ModeC>(resultFilePath);
         break;
     case "f":
-        IMode<Flory>.Simulate(resultFilePath);
+        Utils.Simulate<Flory>(resultFilePath);
         break;
     default:
         Console.Error.WriteLine("Unknown mode: {0}", mode);

@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace MelonSim.Modes;
 
@@ -34,11 +33,12 @@ struct ModeA : IMode<ModeA>
         Span<FieldStatus> fields = Fields;
         Span<int> stemIndices = StemIndices;
         fields.Clear();
-        _random.Shuffle(stemIndices);
-        ref FieldStatus p = ref MemoryMarshal.GetArrayDataReference(Fields);
+        ref int s = ref MemoryMarshal.GetReference(stemIndices);
+        ref FieldStatus p = ref MemoryMarshal.GetReference(fields);
+        _random.Shuffle(ref s, stemIndices.Length);
         for (int i = 0; i < stemIndices.Length; i++)
         {
-            int index = stemIndices[i];
+            int index = Unsafe.Add(ref s, i);
             ref FieldStatus a = ref Unsafe.Add(ref p, index);
             ref FieldStatus b = ref Unsafe.Add(ref p, index + 1);
             Debug.Assert(Utils.IsRefBelongTo(in a, Fields));

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace MelonSim;
 
 [StructLayout(LayoutKind.Sequential)]
-ref struct RefList4<T> where T : allows ref struct
+struct List4<T>
 {
     public T V0;
     public T V1;
@@ -29,5 +29,9 @@ ref struct RefList4<T> where T : allows ref struct
     {
         Debug.Assert(Count is >= 0 and < 4);
         this[Count++] = value;
+    }
+    public void Clear()
+    {
+        Count = 0;
     }
 }

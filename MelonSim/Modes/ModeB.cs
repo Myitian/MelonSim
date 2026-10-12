@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace MelonSim.Modes;
 
@@ -39,38 +38,40 @@ struct ModeB : IMode<ModeB>
     }
     public void Simulate()
     {
+        List4<int> list = new();
         Span<FieldStatus> fields = Fields;
         Span<int> stemIndices = StemIndices;
         fields.Clear();
-        _random.Shuffle(stemIndices);
-        RefList4<Ref<FieldStatus>> list = new();
-        ref FieldStatus p = ref MemoryMarshal.GetArrayDataReference(Fields);
+        ref int s = ref MemoryMarshal.GetReference(stemIndices);
+        ref FieldStatus p = ref MemoryMarshal.GetReference(fields);
+        _random.Shuffle(ref s, stemIndices.Length);
         for (int i = 0; i < stemIndices.Length; i++)
         {
-            int index = stemIndices[i];
-            ref FieldStatus a = ref Unsafe.Add(ref p, index - 2);
-            ref FieldStatus b = ref Unsafe.Add(ref p, index - 1);
-            ref FieldStatus c = ref Unsafe.Add(ref p, index);
-            ref FieldStatus d = ref Unsafe.Add(ref p, LineSize * 2 + index);
-            Debug.Assert(Utils.IsRefBelongTo(in a, Fields));
-            Debug.Assert(Utils.IsRefBelongTo(in b, Fields));
-            Debug.Assert(Utils.IsRefBelongTo(in c, Fields));
-            Debug.Assert(Utils.IsRefBelongTo(in d, Fields));
-            if (a == FieldStatus.Empty)
-                list.Add(new(ref a));
-            if (b == FieldStatus.Empty)
-                list.Add(new(ref b));
-            if (c == FieldStatus.Empty)
-                list.Add(new(ref c));
-            if (d == FieldStatus.Empty)
-                list.Add(new(ref d));
+            list.Clear();
+            int index = Unsafe.Add(ref s, i);
+            int a = index - 2;
+            int b = index - 1;
+            int c = index;
+            int d = index + LineSize * 2;
+            Debug.Assert(Utils.IsRefBelongTo(in Unsafe.Add(ref p, a), Fields));
+            Debug.Assert(Utils.IsRefBelongTo(in Unsafe.Add(ref p, b), Fields));
+            Debug.Assert(Utils.IsRefBelongTo(in Unsafe.Add(ref p, c), Fields));
+            Debug.Assert(Utils.IsRefBelongTo(in Unsafe.Add(ref p, d), Fields));
+            if (Unsafe.Add(ref p, a) == FieldStatus.Empty)
+                list.Add(a);
+            if (Unsafe.Add(ref p, b) == FieldStatus.Empty)
+                list.Add(b);
+            if (Unsafe.Add(ref p, c) == FieldStatus.Empty)
+                list.Add(c);
+            if (Unsafe.Add(ref p, d) == FieldStatus.Empty)
+                list.Add(d);
             int offset = 0;
             switch (list.Count)
             {
                 case 0:
                     break;
                 case 1:
-                    list[offset].Value = FieldStatus.Block;
+                    Unsafe.Add(ref p, list[offset]) = FieldStatus.Block;
                     break;
                 case 2:
                     offset = (int)_random.Next() & 1;

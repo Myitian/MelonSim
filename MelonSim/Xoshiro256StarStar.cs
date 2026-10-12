@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace MelonSim;
 
@@ -47,14 +48,14 @@ struct Xoshiro256StarStar(ulong seed)
         }
         return (ulong)(m >> 64);
     }
-    public void Shuffle<T>(Span<T> values)
+    public void Shuffle<T>(scoped ref T values, int length)
     {
-        for (int i = 0; i < values.Length - 1; i++)
+        for (int i = 0; i < length - 1; i++)
         {
-            int j = i + (int)Next((ulong)(values.Length - i));
-            T temp = values[i];
-            values[i] = values[j];
-            values[j] = temp;
+            int j = i + (int)Next((ulong)(length - i));
+            T temp = Unsafe.Add(ref values, i);
+            Unsafe.Add(ref values, i) = Unsafe.Add(ref values, j);
+            Unsafe.Add(ref values, j) = temp;
         }
     }
     public static ulong SplitMix64(ref ulong x)
